@@ -1,0 +1,190 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  ::-webkit-scrollbar { display: none }
+}
+input {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+html{
+  font-size: 13.333333vw;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+  @media (min-width: 1000px) {
+    font-size: 50px;
+  }
+}
+body{
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-size: .28rem;
+}
+
+button{
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  &:hover{
+    outline: none;
+  }
+}
+
+p{
+  margin: 0;
+}
+
+#app{
+  width: 7.5rem;
+  height: 100%;
+  margin: 0 auto;
+  font-size: .22rem;
+  position: relative;
+}
+
+/* 单行溢出 */
+.app-oneline {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* 两行溢出 */
+.app-mutiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+
+/* 布局 */
+.dis-flex {
+  display: flex;
+}
+
+.flex-x-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-x-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-x-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-x-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-x-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-y-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-y-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flex-y-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flex-dir-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-y-end {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* 子元素水平垂直居中 */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 多行子元素垂直居中 */
+.flex-mcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.ofx {
+  overflow-y: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ofy{
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ofh{
+  overflow: hidden;
+}
+
+.h100{
+  height: 100%;
+}
+
+.text-c{
+  text-align: center;
+}
+
+.text-l{
+  text-align: left;
+}
+
+.text-r{
+  text-align: right;
+}

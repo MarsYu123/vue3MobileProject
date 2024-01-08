@@ -1,0 +1,158 @@
+
+@for $size from 10 through 40 {
+  .fs-#{$size} { font-size: calc(1rem * $size / 100); }
+}
+
+// 生成伪元素，用于简略一些固定样式
+@mixin element ($type: 'after') {
+  &::#{$type} {
+    content: '';
+    display: block;
+    @content;
+  }
+}
+
+/* 设置文字样式
+ * @include font(#aaa 700 .2 .4) - 分别设置字色、字重、字号、行高，字色、字重顺序无要求
+ * @include font(var(--color) .2 .3) 分别设置var颜色 字号 行高
+ * @include font(black .2 .4 bold) - 字色可为单词，字重可使用string
+ * 小于100的数的第一个设置的是字号，第二个是行高，顺序不可逆
+ */
+@mixin font($obj) {
+  $mark: false;
+  @each $i in $obj {
+    @if (type-of($i) != 'list') {
+      @if (type-of($i) == 'color') {
+        color: $i;
+      } @else if (type-of($i) == 'string' and $i != 'normal' and $i != 'bold' and $i != 'lighter' and $i != 'bolder') {
+        color: $i;
+      } @else if (type-of($i) == 'string' or $i > 300) {
+        font-weight: $i;
+      } @else {
+        @if ($mark != true) {
+          font-size: $i * 1rem;
+          $mark: true;
+        } @else {
+          line-height: $i * 1rem;
+        }
+      }
+    } @else {
+      font-size: nth($i, 1);
+      line-height: nth($i, 2);
+    }
+  }
+}
+
+// 设置图片背景
+@mixin bg($url,$bgc: null, $size: 100% 100%, $pos: center, $repeat: no-repeat) {
+  background: $bgc $url $repeat $pos/$size;
+}
+
+// 多行文本溢出样式
+@mixin multipleLine($line: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+}
+
+
+
+/* rem宽高
+ * 可接受最多3个参数`
+ * @include wh(1rem 5 em) - 第三个为单位 带单位的原样输出，不带单位的带上第三个参数
+ * @include wh(100 200) - 带单位的原样输出
+ * @include wh(80) - 带单位的原样输出
+ * @include wh() - 100%布局
+ */
+@mixin wh($num: null) {
+  @if (length($num) == 3) {
+    $w: nth($num, 1);
+    $h: nth($num, 2);
+    $unit: nth($num, 3);
+    width: if(unitless($w), $w * 1#{$unit}, $w);
+    height: if(unitless($h), $h * 1#{$unit}, $h);
+  } @else if (length($num) == 2) {
+    $w: nth($num, 1);
+    $h: nth($num, 2);
+    width: if($w == auto, auto, if(unitless($w), $w * 1rem, $w));
+    height: if($h == auto, auto, if(unitless($h), $h * 1rem, $h));
+  } @else if (length($num) == 1) {
+    @if ($num == null) {
+      width: 100%;
+      height: 100%;
+    } @else {
+      $length: nth($num, 1);
+      width: if($length == auto, auto, if(unitless($length), $length * 1rem, $length));
+      height: if($length == auto, auto, if(unitless($length), $length * 1rem, $length));
+    }
+  }
+}
+
+
+
+/*
+ * 设置边框为1px 仅单独方向有0.5效果，全包围边框为1px
+ *  @include border1px(#333 'all') 全包围有15rem颜色为#333的1px边框
+ *  @include border1px(#333 'right') 右边框粗细为0.5px 颜色为#333
+ */
+@mixin border1px($color: #333, $direction: 'bottom') {
+  @if ($direction == 'all') {
+    border: 1px solid $color;
+  } @else {
+    border-#{$direction}: 1px solid $color;
+  }
+  position: relative;
+
+  &:after {
+    pointer-events: none;
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @if ($direction == 'all') {
+      border: 1px solid $color;
+    } @else {
+      border-#{$direction}: 1px solid $color;
+    }
+    transform: scale(0.5, 0.5);
+    -webkit-transform-origin: top left;
+  }
+
+  /* 2倍屏 */
+  @media (-webkit-min-device-pixel-ratio: 2.0) {
+    &:after {
+      content: '';
+      transform: scale(0.5, 0.5);
+    }
+    @if ($direction == 'all') {
+      border: none;
+    } @else {
+      border-#{$direction}: none;
+    }
+  }
+  /* 3倍屏 */
+  @media (-webkit-min-device-pixel-ratio: 3.0) {
+    &:after {
+      content: '';
+      width: 300%;
+      height: 300%;
+      transform: scale(0.33333, 0.33333);
+    }
+    @if ($direction == 'all') {
+      border: none;
+    } @else {
+      border-#{$direction}: none;
+    }
+  }
+};
+
+
+@mixin borderColorTran ($tranColor, $borderWidth: 1, $borderRadius: 2) {
+  background: linear-gradient(#FFFFFF,#FFFFFF), #{$tranColor};
+  border: #{$borderWidth}px solid transparent;
+  border-radius: #{$borderRadius}px;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}

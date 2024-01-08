@@ -1,0 +1,4 @@
+/public
+/dist
+*.d.ts
+buildComponents.build.js
